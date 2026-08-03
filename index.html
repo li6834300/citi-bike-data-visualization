@@ -24,10 +24,32 @@
         </div>
       </header>
 
+      <section class="nebula-section" aria-labelledby="nebula-title">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">01 / CITI BIKE NEBULA</p>
+            <h2 id="nebula-title">A city that breathes</h2>
+          </div>
+          <p class="section-note">Each star is a station. Its size is dock capacity; its glow is the volume of arrivals and departures around this moment.</p>
+        </div>
+        <div class="nebula-frame">
+          <div id="nebula" role="img" aria-label="Animated night map of Citi Bike station activity"></div>
+          <div class="nebula-label"><span>CITI BIKE</span> NEBULA <em>2014</em></div>
+          <div class="nebula-key">STAR SIZE / TOTAL DOCKS<br />STAR GLOW / ARRIVALS + DEPARTURES</div>
+        </div>
+        <div class="nebula-timeline">
+          <button id="nebula-play" type="button" aria-label="Play Nebula timeline">Play</button>
+          <div class="nebula-time"><span id="nebula-time">08:00</span><small>01 AUG 2014</small></div>
+          <input id="nebula-slider" type="range" min="0" max="1439" value="480" step="5" aria-label="Nebula time of day" />
+        </div>
+        <div class="ticks nebula-ticks"><span>00:00</span><span>06:00</span><span>12:00</span><span>18:00</span><span>24:00</span></div>
+        <p class="caption">Activity is measured in a 15-minute window around the selected time. Press Play to move through the day; the stars pulse as the network’s activity changes.</p>
+      </section>
+
       <section class="map-section" aria-labelledby="map-title">
         <div class="section-heading">
           <div>
-            <p class="eyebrow">01 / PEOPLE AND BIKES</p>
+            <p class="eyebrow">02 / PEOPLE AND BIKES</p>
             <h2 id="map-title">The city as a layered system</h2>
           </div>
           <p class="section-note">Turn layers on and off to see the 2014 network shift from infrastructure to activity.</p>
@@ -49,7 +71,7 @@
       <section class="trip-section" aria-labelledby="trip-title">
         <div class="section-heading">
           <div>
-            <p class="eyebrow">02 / CITI BIKE TRIPS</p>
+            <p class="eyebrow">03 / CITI BIKE TRIPS</p>
             <h2 id="trip-title">One day, in motion</h2>
           </div>
           <p class="section-note">Scrub through the day to reveal departures and arrivals in the archived August 1 sample.</p>
@@ -66,7 +88,7 @@
       <section class="wheel-section" aria-labelledby="wheel-title">
         <div class="section-heading">
           <div>
-            <p class="eyebrow">03 / BICYCLE WHEEL</p>
+            <p class="eyebrow">04 / BICYCLE WHEEL</p>
             <h2 id="wheel-title">The station network</h2>
           </div>
           <p class="section-note">The twenty most connected stations in the archive. Select a station to isolate its strongest exchanges.</p>
