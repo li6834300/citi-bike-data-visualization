@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="A contemporary recreation of Qijing Zhang's 2014 PopBike data-visualization project." />
+    <title>PopBike — 2014 / now</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main>
+      <header class="masthead">
+        <p class="eyebrow">REBUILT FROM THE 2014 ARCHIVE</p>
+        <div class="title-row">
+          <h1>POP<br />BIKE</h1>
+          <p class="deck">A living portrait of how New York moves: where a shared bike begins, where it lands, and which places shape its path.</p>
+        </div>
+        <div class="metadata">
+          <span>NYC · AUG 01, 2014</span><span>32,655 archived rides</span><span>version 01</span>
+        </div>
+      </header>
+
+      <section class="map-section" aria-labelledby="map-title">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">01 / PEOPLE AND BIKES</p>
+            <h2 id="map-title">The city as a layered system</h2>
+          </div>
+          <p class="section-note">Turn layers on and off to see the 2014 network shift from infrastructure to activity.</p>
+        </div>
+        <div class="map-shell">
+          <div id="layer-map" aria-label="Map of 2014 Citi Bike stations and trip corridors in New York City"></div>
+          <aside class="map-controls" aria-label="Map layers">
+            <p class="control-title">Layers</p>
+            <label><input id="toggle-income" type="checkbox" checked /> <span class="swatch income"></span>Income by ZIP area</label>
+            <label><input id="toggle-stations" type="checkbox" checked /> <span class="swatch station"></span>Stations <small>&gt;40 / 30–40 / ≤29 docks</small></label>
+            <label><input id="toggle-flows" type="checkbox" checked /> <span class="swatch flow"></span>Most-used paths <small>estimated routes</small></label>
+            <label><input id="toggle-landmarks" type="checkbox" checked /> <span class="swatch landmark"></span>Landmarks</label>
+          </aside>
+          <div id="map-summary" class="map-summary" aria-live="polite">Loading archived layers…</div>
+        </div>
+        <p class="caption">Income is the archived ZIP-level median household income, filled once per Census ZIP Code Tabulation Area (ZCTA). Routes are bicycle-network estimates between the observed start and end stations; the archive does not contain GPS tracks.</p>
+      </section>
+
+      <section class="trip-section" aria-labelledby="trip-title">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">02 / CITI BIKE TRIPS</p>
+            <h2 id="trip-title">One day, in motion</h2>
+          </div>
+          <p class="section-note">Scrub through the day to reveal departures and arrivals in the archived August 1 sample.</p>
+        </div>
+        <div class="timeline-card">
+          <div class="timeline-topline"><span id="time-readout">00:00</span><span id="trip-count">— rides active</span></div>
+          <input id="time-slider" type="range" min="0" max="1439" value="480" step="5" aria-label="Time of day" />
+          <div class="ticks"><span>00:00</span><span>06:00</span><span>12:00</span><span>18:00</span><span>24:00</span></div>
+          <div id="trip-strip" aria-label="Trip activity at the selected time"></div>
+          <p>Green marks departures, coral marks arrivals, and yellow marks rides in progress. A deterministic sample keeps the scene readable.</p>
+        </div>
+      </section>
+
+      <section class="wheel-section" aria-labelledby="wheel-title">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">03 / BICYCLE WHEEL</p>
+            <h2 id="wheel-title">The station network</h2>
+          </div>
+          <p class="section-note">The twenty most connected stations in the archive. Select a station to isolate its strongest exchanges.</p>
+        </div>
+        <div class="wheel-layout">
+          <div id="wheel" aria-label="Chord-style network showing top station connections"></div>
+          <div class="station-detail">
+            <p class="eyebrow">SELECTED STATION</p>
+            <h3 id="station-name">Loading…</h3>
+            <p id="station-stats">Preparing the network.</p>
+            <div class="legend"><span><i class="legend-out"></i>departures</span><span><i class="legend-in"></i>arrivals</span></div>
+          </div>
+        </div>
+      </section>
+    </main>
+    <footer>POPBIKE / 2014 ARCHIVE RECONSTRUCTION · Original concept &amp; data visualization by Qijing Zhang</footer>
+    <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
+    <script src="app.js"></script>
+  </body>
+</html>
