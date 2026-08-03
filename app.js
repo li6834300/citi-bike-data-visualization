@@ -16,10 +16,71 @@ L.control.zoom({ position: 'bottomright' }).addTo(map);
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 19, attribution: '&copy; OpenStreetMap contributors' }).addTo(map);
 const layers = { income: L.layerGroup().addTo(map), stations: L.layerGroup().addTo(map), flows: L.layerGroup().addTo(map), landmarks: L.layerGroup().addTo(map) };
 let trips = [], stations = [], stationById = new Map(), flowPairs = [], incomeByZip = new Map(), zctaGeo = null, bikeRouteGeo = null;
+let nebulaActivity = [], nebulaMinute = 480, nebulaPlaying = false, nebulaTimer = null, nebulaSvg = null, nebulaProjection = null;
 
 function parseTime(value) { const [date, time] = value.split(' '); const [m, d, y] = date.split('/').map(Number); const [h, min] = time.split(':').map(Number); return { minute: h * 60 + min, date: new Date(2000 + y, m - 1, d, h, min) }; }
 function money(v) { return v ? `$${Math.round(+v / 1000)}k median income` : 'Income unavailable'; }
 function toggle(id, layer) { document.getElementById(id).addEventListener('change', e => e.target.checked ? map.addLayer(layer) : map.removeLayer(layer)); }
+function formatMinute(minute) { return `${String(Math.floor(minute / 60)).padStart(2, '0')}:${String(minute % 60).padStart(2, '0')}`; }
+
+function buildNebulaActivity() {
+  nebulaActivity = Array.from({ length: 1440 }, () => new Map());
+  const add = (minute, stationId) => nebulaActivity[minute].set(stationId, (nebulaActivity[minute].get(stationId) || 0) + 1);
+  trips.forEach(d => { add(d.startMinute, d.startId); add(d.endMinute, d.endId); });
+}
+function drawNebula() {
+  const host = document.getElementById('nebula'); const width = host.clientWidth || 1000; const height = host.clientHeight || 560;
+  nebulaSvg = d3.select(host).selectAll('svg').data([null]).join('svg').attr('viewBox', `0 0 ${width} ${height}`).attr('preserveAspectRatio', 'xMidYMid meet');
+  const defs = nebulaSvg.selectAll('defs').data([null]).join('defs');
+  const glowGradient = defs.selectAll('#nebula-glow').data([null]).join('radialGradient').attr('id', 'nebula-glow');
+  glowGradient.selectAll('stop').data([{ offset: '0%', opacity: .72 }, { offset: '42%', opacity: .22 }, { offset: '100%', opacity: 0 }]).join('stop').attr('offset', d => d.offset).attr('stop-color', '#9db5ff').attr('stop-opacity', d => d.opacity);
+  const stationGeometry = { type: 'FeatureCollection', features: stations.map(d => ({ type: 'Feature', geometry: { type: 'Point', coordinates: [d.lng, d.lat] } })) };
+  nebulaProjection = d3.geoMercator().fitExtent([[42, 36], [width - 42, height - 36]], stationGeometry);
+  const path = d3.geoPath(nebulaProjection);
+  nebulaSvg.selectAll('.nebula-land').data(zctaGeo.features).join('path').attr('class', 'nebula-land').attr('d', path);
+  const dockRadius = d3.scaleSqrt().domain(d3.extent(stations, d => d.docks)).range([2.8, 10]);
+  const starGroups = nebulaSvg.selectAll('.nebula-star').data(stations, d => d.id).join(enter => {
+    const group = enter.append('g').attr('class', 'nebula-star');
+    group.append('circle').attr('class', 'nebula-halo').attr('fill', 'url(#nebula-glow)');
+    group.append('circle').attr('class', 'nebula-core');
+    return group;
+  });
+  starGroups.attr('transform', d => `translate(${nebulaProjection([d.lng, d.lat]).join(',')})`);
+  starGroups.select('.nebula-halo').attr('r', d => dockRadius(d.docks) * 1.9);
+  starGroups.select('.nebula-core').attr('r', d => dockRadius(d.docks) * .75);
+  updateNebula();
+}
+function updateNebula() {
+  if (!nebulaSvg) return;
+  const activity = new Map();
+  for (let offset = -7; offset <= 7; offset += 1) {
+    const minute = (nebulaMinute + offset + 1440) % 1440;
+    nebulaActivity[minute].forEach((count, id) => activity.set(id, (activity.get(id) || 0) + count));
+  }
+  const maxActivity = Math.max(1, d3.max(activity.values()) || 1);
+  const glow = d3.scaleSqrt().domain([0, maxActivity]).range([.16, 1]);
+  const starGroups = nebulaSvg.selectAll('.nebula-star')
+    .classed('is-active', d => (activity.get(d.id) || 0) > 0)
+    .attr('aria-label', d => `${d.name}: ${activity.get(d.id) || 0} arrivals and departures around ${formatMinute(nebulaMinute)}`);
+  starGroups.select('.nebula-core')
+    .attr('fill', d => d3.interpolateRgb('#33426f', '#c5d2ff')(glow(activity.get(d.id) || 0)))
+    .attr('fill-opacity', d => glow(activity.get(d.id) || 0));
+  starGroups.select('.nebula-halo')
+    .attr('fill-opacity', d => Math.max(.05, glow(activity.get(d.id) || 0) * .82));
+  document.getElementById('nebula-time').textContent = formatMinute(nebulaMinute);
+  document.getElementById('nebula-slider').value = nebulaMinute;
+}
+function setupNebula() {
+  drawNebula();
+  const slider = document.getElementById('nebula-slider'); const button = document.getElementById('nebula-play');
+  slider.addEventListener('input', () => { nebulaMinute = +slider.value; updateNebula(); });
+  button.addEventListener('click', () => {
+    nebulaPlaying = !nebulaPlaying; button.textContent = nebulaPlaying ? 'Pause' : 'Play'; button.setAttribute('aria-label', nebulaPlaying ? 'Pause Nebula timeline' : 'Play Nebula timeline');
+    if (nebulaPlaying) {
+      nebulaTimer = window.setInterval(() => { nebulaMinute = (nebulaMinute + 5) % 1440; updateNebula(); }, 320);
+    } else { window.clearInterval(nebulaTimer); nebulaTimer = null; }
+  });
+}
 
 function addLandmarks() {
   landmarks.forEach(([name, lat, lng, image, article]) => {
@@ -98,5 +159,5 @@ Promise.all([d3.csv('data/bikestation.csv'), d3.csv('data/trips.csv'), d3.json('
   stations = stationRows.map(d => ({ id:+d.id, name:d.name, lat:+d.latitude, lng:+d.longitude, docks:+d.totalDocks, zip:String(d.postalCode).padStart(5, '0'), income:incomeByZip.get(String(d.postalCode).padStart(5, '0')) })); stationById = new Map(stations.map(d => [d.id,d]));
   trips = tripRows.map(d => { const start=parseTime(d.starttime), end=parseTime(d.stoptime); return { startMinute:start.minute, endMinute:end.minute, startId:+d.start_station_id, endId:+d.end_station_id, startLat:+d.start_station_latitude, startLng:+d.start_station_longitude, endLat:+d.end_station_latitude, endLng:+d.end_station_longitude }; }).filter(d => Number.isFinite(d.startLat) && Number.isFinite(d.endLat));
   flowPairs = d3.rollups(trips, v => v.length, d => `${d.startId}-${d.endId}`).map(([key,count]) => { const [s,t]=key.split('-').map(Number); return { origin:stationById.get(s), destination:stationById.get(t), count }; }).filter(d => d.origin && d.destination && d.origin.id !== d.destination.id).sort((a,b)=>b.count-a.count).slice(0,110);
-  renderMap(); setupTimeline(); renderWheel(); ['income','stations','flows','landmarks'].forEach(n => toggle(`toggle-${n}`, layers[n]));
+  renderMap(); buildNebulaActivity(); setupNebula(); setupTimeline(); renderWheel(); ['income','stations','flows','landmarks'].forEach(n => toggle(`toggle-${n}`, layers[n]));
 }).catch(error => { console.error(error); document.getElementById('map-summary').textContent = 'Could not load the archived data. Please open this project through a local web server.'; });
