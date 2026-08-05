@@ -24,6 +24,19 @@
         </div>
       </header>
 
+      <section class="prologue" aria-labelledby="prologue-title">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">A QUESTION IN MOTION</p>
+            <h2 id="prologue-title">What does a city reveal when its bikes begin to move?</h2>
+          </div>
+        </div>
+        <div class="story-columns">
+          <p>This project began with three curiosities: data visualisation can make invisible systems tangible; cycling is an intimate way to experience a city; and a bike-share dataset can turn a familiar map into something alive. I wanted to know what Citi Bike could reveal when every dock, departure, arrival, and route was placed in the same urban frame.</p>
+          <p>Rather than treating each ride as an isolated record, <em>PopBike</em> reads them together as a portrait of everyday New York. Where does cycling concentrate? Is it leisure and sightseeing, a commute, or the last connection between public transport and daily life? And who has access to this form of low-carbon mobility?</p>
+        </div>
+      </section>
+
       <section class="nebula-section" aria-labelledby="nebula-title">
         <div class="section-heading">
           <div>
@@ -44,6 +57,11 @@
         </div>
         <div class="ticks nebula-ticks"><span>00:00</span><span>06:00</span><span>12:00</span><span>18:00</span><span>24:00</span></div>
         <p class="caption">Activity is measured in a 15-minute window around the selected time. Press Play to move through the day; the stars pulse as the network’s activity changes.</p>
+        <div class="interpretation interpretation-dark">
+          <p class="interpretation-label">HOW TO READ IT</p>
+          <p>New York becomes a night sky. Every dock is a star: its size reflects the number of available docks, while its glow reflects the arrivals and departures happening around that moment. As the day advances, the constellation flickers—brightening where people gather, commute, and connect; dimming where the city briefly rests.</p>
+          <p>This view does not follow a single person or bicycle. It lets thousands of small, ordinary movements gather into a visible pulse. The nebula is a breathing map of the city: shared bikes are its stars, and changing activity is its rhythm.</p>
+        </div>
       </section>
 
       <section class="map-section" aria-labelledby="map-title">
@@ -66,6 +84,11 @@
           <div id="map-summary" class="map-summary" aria-live="polite">Loading archived layers…</div>
         </div>
         <p class="caption">Income is the archived ZIP-level median household income, filled once per Census ZIP Code Tabulation Area (ZCTA). Routes are bicycle-network estimates between the observed start and end stations; the archive does not contain GPS tracks.</p>
+        <div class="interpretation">
+          <p class="interpretation-label">READING THE LAYERS</p>
+          <p>The map brings infrastructure, activity, and urban context into one view. Toggle income, station capacity, high-use routes, and landmarks to ask how the network relates to the city around it: which neighbourhoods have a dense supply of docks, which corridors repeatedly connect people, and whether popular destinations sit beside everyday origins and destinations.</p>
+          <p>These layers cannot identify an individual rider’s income or intention. They do, however, reveal spatial patterns: bike-share access and use may cluster around central, commercial, tourist, or more affluent areas. That makes the map a way to ask whether low-carbon mobility is distributed as a public good, or unevenly as an urban privilege.</p>
+        </div>
       </section>
 
       <section class="trip-section" aria-labelledby="trip-title">
@@ -82,6 +105,10 @@
           <div class="ticks"><span>00:00</span><span>06:00</span><span>12:00</span><span>18:00</span><span>24:00</span></div>
           <div id="trip-strip" aria-label="Trip activity at the selected time"></div>
           <p>Green marks departures, coral marks arrivals, and yellow marks rides in progress. A deterministic sample keeps the scene readable.</p>
+        </div>
+        <div class="interpretation">
+          <p class="interpretation-label">A DAY’S RHYTHM</p>
+          <p>Scrubbing through the day reveals that bike-share is not only a weekend or leisure activity. Repeated peaks in departures, arrivals, and rides in progress make visible the city’s recurring tempo: people leave home, travel to work or study, run daily errands, meet friends, and return again. In this sense, Citi Bike becomes part of New York’s wider public-transport ecosystem—a flexible first- and last-mile connection as well as a journey in its own right.</p>
         </div>
       </section>
 
@@ -101,6 +128,18 @@
             <p id="station-stats">Preparing the network.</p>
             <div class="legend"><span><i class="legend-out"></i>departures</span><span><i class="legend-in"></i>arrivals</span></div>
           </div>
+        </div>
+        <div class="interpretation">
+          <p class="interpretation-label">CONNECTIONS, NOT JUST POINTS</p>
+          <p>The wheel isolates the twenty most connected stations and their strongest exchanges. It shows that a station is more than a place to pick up or return a bike: it is a hinge between neighbourhoods. Together, these links reveal a network of repeated relationships among homes, workplaces, transit nodes, parks, shopping streets, and landmarks.</p>
+        </div>
+      </section>
+
+      <section class="conclusion" aria-labelledby="conclusion-title">
+        <div class="section-heading"><div><p class="eyebrow">CONCLUSION / THEN AND NOW</p><h2 id="conclusion-title">A low-carbon city must also be an accessible one.</h2></div></div>
+        <div class="story-columns">
+          <p>The 2014 archive suggests that shared cycling had several lives at once: it supported commuting and daily errands, connected people to transit and public space, and also moved through commercial and landmark-rich parts of the city. Its activity was not evenly spread. The result is not proof that one income group “likes cycling” more than another, nor that every trip to a landmark is tourism. It is evidence of a spatial relationship between mobility, infrastructure, and opportunity.</p>
+          <p>That question has only become more urgent. Across Europe, cities are expanding cycle networks, reducing car dependence, and pursuing lower-emission streets. The next challenge is not simply increasing the number of bicycle trips, but ensuring that safe, reliable, and affordable cycling reaches people across neighbourhoods, ages, incomes, and daily routines. A map like this can help identify where a new dock, protected lane, or transit connection could make the green transition more equitable.</p>
         </div>
       </section>
     </main>
