@@ -154,6 +154,27 @@ function renderWheel() {
   selectStation(selected);
 }
 
+// Sticky nav: highlight the view currently in front of the reader and track
+// reading progress. Runs independently of the data load so navigation still
+// works if a dataset fails to arrive.
+function setupSiteNav() {
+  const links = [...document.querySelectorAll('.sitenav ul a')];
+  const sections = links.map(a => document.querySelector(a.getAttribute('href'))).filter(Boolean);
+  const progress = document.getElementById('scroll-progress');
+  const sync = () => {
+    const scrollable = document.documentElement.scrollHeight - window.innerHeight;
+    progress.style.width = `${scrollable > 0 ? Math.min(100, (window.scrollY / scrollable) * 100) : 0}%`;
+    // The active view is the last one whose top has passed just below the bar.
+    let current = -1;
+    sections.forEach((section, i) => { if (section.getBoundingClientRect().top <= window.innerHeight * .38) current = i; });
+    links.forEach((link, i) => link.classList.toggle('is-current', i === current));
+  };
+  window.addEventListener('scroll', () => window.requestAnimationFrame(sync), { passive: true });
+  window.addEventListener('resize', sync);
+  sync();
+}
+setupSiteNav();
+
 Promise.all([d3.csv('data/bikestation.csv'), d3.csv('data/trips.csv'), d3.json('data/incomecsv.json'), d3.json('data/nyc-zctas.geojson'), d3.json('data/estimated-bike-routes.geojson')]).then(([stationRows, tripRows, incomeRows, zipAreas, bikeRoutes]) => {
   incomeByZip = new Map(incomeRows.map(d => [String(d.zipcode).padStart(5, '0'), +d.income])); zctaGeo = zipAreas; bikeRouteGeo = bikeRoutes;
   stations = stationRows.map(d => ({ id:+d.id, name:d.name, lat:+d.latitude, lng:+d.longitude, docks:+d.totalDocks, zip:String(d.postalCode).padStart(5, '0'), income:incomeByZip.get(String(d.postalCode).padStart(5, '0')) })); stationById = new Map(stations.map(d => [d.id,d]));

@@ -3,24 +3,41 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="description" content="A contemporary recreation of Qijing Zhang's 2014 PopBike data-visualization project." />
-    <title>PopBike — 2014 / now</title>
+    <meta name="description" content="Citi Bike Data Visualization — four interactive views of 32,655 archived New York City Citi Bike rides from 1 August 2014." />
+    <title>Citi Bike Data Visualization — New York City, 2014</title>
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%2311201f'/%3E%3Ccircle cx='10' cy='21' r='5.5' fill='none' stroke='%23f5c445' stroke-width='2'/%3E%3Ccircle cx='23' cy='21' r='5.5' fill='none' stroke='%23f5c445' stroke-width='2'/%3E%3Cpath d='M10 21 16 12h5' fill='none' stroke='%23c9df42' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M16 12 23 21' fill='none' stroke='%23c9df42' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="" />
     <link rel="stylesheet" href="styles.css" />
   </head>
-  <body>
+  <body id="top">
+    <a class="skip-link" href="#view-nebula">Skip to the visualizations</a>
+    <nav class="sitenav" aria-label="Sections">
+      <div class="sitenav-inner">
+        <a class="sitenav-brand" href="#top">CITI BIKE <span>DATA VISUALIZATION</span></a>
+        <ul>
+          <li><a href="#view-nebula"><b>01</b> Nebula</a></li>
+          <li><a href="#view-map"><b>02</b> People &amp; Bikes</a></li>
+          <li><a href="#view-trips"><b>03</b> Trips</a></li>
+          <li><a href="#view-wheel"><b>04</b> Wheel</a></li>
+        </ul>
+      </div>
+      <div class="sitenav-progress"><span id="scroll-progress"></span></div>
+    </nav>
     <main>
       <header class="masthead">
-        <p class="eyebrow">REBUILT FROM THE 2014 ARCHIVE</p>
+        <p class="eyebrow">NEW YORK CITY · CITI BIKE OPEN DATA · 2014 ARCHIVE</p>
         <div class="title-row">
-          <h1>POP<br />BIKE</h1>
+          <div class="wordmark">
+            <h1>CITI<br />BIKE</h1>
+            <p class="wordmark-tag">DATA VISUALIZATION</p>
+          </div>
           <p class="deck">A living portrait of how New York moves: where a shared bike begins, where it lands, and which places shape its path.</p>
         </div>
         <div class="metadata">
-          <span>NYC · AUG 01, 2014</span><span>32,655 archived rides</span><span>version 01</span>
+          <span>NYC · AUG 01, 2014</span><span>32,655 archived rides</span><span>331 stations</span><span>4 views</span>
         </div>
       </header>
 
@@ -33,11 +50,11 @@
         </div>
         <div class="story-columns">
           <p>This project began with three curiosities: data visualisation can make invisible systems tangible; cycling is an intimate way to experience a city; and a bike-share dataset can turn a familiar map into something alive. I wanted to know what Citi Bike could reveal when every dock, departure, arrival, and route was placed in the same urban frame.</p>
-          <p>Rather than treating each ride as an isolated record, <em>PopBike</em> reads them together as a portrait of everyday New York. Where does cycling concentrate? Is it leisure and sightseeing, a commute, or the last connection between public transport and daily life? And who has access to this form of low-carbon mobility?</p>
+          <p>Rather than treating each ride as an isolated record, these four views read them together as a portrait of everyday New York. Where does cycling concentrate? Is it leisure and sightseeing, a commute, or the last connection between public transport and daily life? And who has access to this form of low-carbon mobility?</p>
         </div>
       </section>
 
-      <section class="nebula-section" aria-labelledby="nebula-title">
+      <section id="view-nebula" class="nebula-section" aria-labelledby="nebula-title">
         <div class="section-heading">
           <div>
             <p class="eyebrow">01 / CITI BIKE NEBULA</p>
@@ -64,7 +81,7 @@
         </div>
       </section>
 
-      <section class="map-section" aria-labelledby="map-title">
+      <section id="view-map" class="map-section" aria-labelledby="map-title">
         <div class="section-heading">
           <div>
             <p class="eyebrow">02 / PEOPLE AND BIKES</p>
@@ -91,7 +108,7 @@
         </div>
       </section>
 
-      <section class="trip-section" aria-labelledby="trip-title">
+      <section id="view-trips" class="trip-section" aria-labelledby="trip-title">
         <div class="section-heading">
           <div>
             <p class="eyebrow">03 / CITI BIKE TRIPS</p>
@@ -112,7 +129,7 @@
         </div>
       </section>
 
-      <section class="wheel-section" aria-labelledby="wheel-title">
+      <section id="view-wheel" class="wheel-section" aria-labelledby="wheel-title">
         <div class="section-heading">
           <div>
             <p class="eyebrow">04 / BICYCLE WHEEL</p>
@@ -143,7 +160,11 @@
         </div>
       </section>
     </main>
-    <footer>POPBIKE / 2014 ARCHIVE RECONSTRUCTION · Original concept &amp; data visualization by Qijing Zhang</footer>
+    <footer>
+      <span>CITI BIKE DATA VISUALIZATION / NEW YORK CITY 2014 ARCHIVE</span>
+      <span>Original concept &amp; data visualization by Qijing Zhang</span>
+      <span>Map data &copy; OpenStreetMap contributors</span>
+    </footer>
     <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
     <script src="app.js"></script>
