@@ -2,7 +2,7 @@
 
 An interactive, self-contained data-visualization essay about the relationship between people, shared bikes, urban infrastructure, landmarks, and income in New York City — built on the archived Citi Bike trip record for **1 August 2014** (32,655 rides, 331 stations).
 
-**Live site:** https://li6834300.github.io/citi-bike-data-visualization/
+**Live site:** https://lizhien.me/citi-bike-data-visualization/
 
 The project grew out of *PopBike*, Qijing Zhang's 2014 data-visualization thesis. The original used Google Maps, Panoramio, and several live feeds that have since been discontinued; this edition preserves the original research questions and archived data while running entirely as a static site with no API keys.
 
