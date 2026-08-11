@@ -4,7 +4,7 @@ An interactive, self-contained data-visualization essay about the relationship b
 
 **Live site:** https://lizhien.me/citi-bike-data-visualization/
 
-The project grew out of *PopBike*, Qijing Zhang's 2014 data-visualization thesis. The original used Google Maps, Panoramio, and several live feeds that have since been discontinued; this edition preserves the original research questions and archived data while running entirely as a static site with no API keys.
+The project grew out of *PopBike*, a 2014 data-visualization thesis. The original used Google Maps, Panoramio, and several live feeds that have since been discontinued; this edition preserves the original research questions and archived data while running entirely as a static site with no API keys.
 
 ## The four views
 
@@ -46,7 +46,3 @@ Published with GitHub Pages from the `main` branch, `/(root)`. Any push to `main
 Two caveats worth carrying into any reading of these views. Citi Bike's trip history records start and end stations, not GPS tracks, so the corridors in view 02 are plausible network routes rather than journeys anyone actually rode. And ZIP-level income describes an *area*, not a rider — the map can show that use clusters in certain neighbourhoods, but it cannot attribute an income or an intention to any individual trip.
 
 Sources: [NYC Open Data ZIP Code Tabulation Areas](https://data.cityofnewyork.us/d/35j5-n34v), [OpenStreetMap](https://www.openstreetmap.org/), and local Wikimedia Commons landmark thumbnails (each preview links back to its source page).
-
-## Credits
-
-Original concept, data research, and visualization: **Qijing Zhang, 2014**.
