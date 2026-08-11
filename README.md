@@ -10,7 +10,7 @@ The project grew out of *PopBike*, a 2014 data-visualization thesis. The origina
 
 1. **Citi Bike Nebula** — the city as a night sky. Each station is a star; size is dock capacity, glow is arrivals and departures in a 15-minute window. Play the timeline to watch the network breathe through the day.
 2. **People and Bikes** — a layered Leaflet map. Toggle ZIP-area income, station capacity, high-use corridors, and landmarks to see the network shift from infrastructure to activity.
-3. **Citi Bike Trips** — a time slider over the archived day. Green marks departures, coral marks arrivals, yellow marks rides in progress.
+3. **Citi Bike Trips** — a time slider over the archived day. Green marks departures, coral marks arrivals, blue marks rides in progress.
 4. **Bicycle Wheel** — the twenty most connected stations and their strongest exchanges. Select a station to isolate its links.
 
 ## Stack
@@ -46,3 +46,7 @@ Published with GitHub Pages from the `main` branch, `/(root)`. Any push to `main
 Two caveats worth carrying into any reading of these views. Citi Bike's trip history records start and end stations, not GPS tracks, so the corridors in view 02 are plausible network routes rather than journeys anyone actually rode. And ZIP-level income describes an *area*, not a rider — the map can show that use clusters in certain neighbourhoods, but it cannot attribute an income or an intention to any individual trip.
 
 Sources: [NYC Open Data ZIP Code Tabulation Areas](https://data.cityofnewyork.us/d/35j5-n34v), [OpenStreetMap](https://www.openstreetmap.org/), and local Wikimedia Commons landmark thumbnails (each preview links back to its source page).
+
+## Credits
+
+By **Qijing Zhang & Zhien Li**.

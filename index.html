@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content="Citi Bike Data Visualization — four interactive views of 32,655 archived New York City Citi Bike rides from 1 August 2014." />
     <title>Citi Bike Data Visualization — New York City, 2014</title>
-    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%2311201f'/%3E%3Ccircle cx='10' cy='21' r='5.5' fill='none' stroke='%23f5c445' stroke-width='2'/%3E%3Ccircle cx='23' cy='21' r='5.5' fill='none' stroke='%23f5c445' stroke-width='2'/%3E%3Cpath d='M10 21 16 12h5' fill='none' stroke='%23c9df42' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M16 12 23 21' fill='none' stroke='%23c9df42' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E" />
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%230f1e2b'/%3E%3Ccircle cx='10' cy='21' r='5.5' fill='none' stroke='%232b90d9' stroke-width='2'/%3E%3Ccircle cx='23' cy='21' r='5.5' fill='none' stroke='%232b90d9' stroke-width='2'/%3E%3Cpath d='M10 21 16 12h5' fill='none' stroke='%237fc4f0' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M16 12 23 21' fill='none' stroke='%237fc4f0' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet" />
@@ -121,7 +121,7 @@
           <input id="time-slider" type="range" min="0" max="1439" value="480" step="5" aria-label="Time of day" />
           <div class="ticks"><span>00:00</span><span>06:00</span><span>12:00</span><span>18:00</span><span>24:00</span></div>
           <div id="trip-strip" aria-label="Trip activity at the selected time"></div>
-          <p>Green marks departures, coral marks arrivals, and yellow marks rides in progress. A deterministic sample keeps the scene readable.</p>
+          <p>Green marks departures, coral marks arrivals, and blue marks rides in progress. A deterministic sample keeps the scene readable.</p>
         </div>
         <div class="interpretation">
           <p class="interpretation-label">A DAY’S RHYTHM</p>
@@ -162,6 +162,7 @@
     </main>
     <footer>
       <span>CITI BIKE DATA VISUALIZATION / NEW YORK CITY 2014 ARCHIVE</span>
+      <span>By Qijing Zhang &amp; Zhien Li</span>
       <span>Map data &copy; OpenStreetMap contributors</span>
     </footer>
     <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>

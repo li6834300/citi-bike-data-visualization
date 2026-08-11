@@ -1,4 +1,8 @@
-const colors = { green: '#18755d', coral: '#ef725b', yellow: '#f5c445', ink: '#11201f', income: '#9a7bc1' };
+// Kept in sync with the custom properties in styles.css. `onDark` holds the
+// same three encodings lifted for the trip strip, which draws on a near-black
+// panel where the print-weight values go muddy.
+const colors = { green: '#17756a', coral: '#ef725b', station: '#2b90d9', ink: '#0f1e2b', income: '#9a7bc1' };
+const onDark = { green: '#35b98f', coral: '#ff8b72', station: '#4fb3ef', ghost: '#3d5a6b' };
 const landmarks = [
   ['Statue of Liberty', 40.6892, -74.0445, 'statue-of-liberty', 'Statue_of_Liberty'],
   ['Brooklyn Bridge', 40.7061, -73.9969, 'brooklyn-bridge', 'Brooklyn_Bridge'],
@@ -101,15 +105,15 @@ function renderMap() {
     .range(['#e8e0f0', '#d1bfe1', '#ae91cf', '#8965b5', '#643d91', '#3f216a']);
   L.geoJSON(zctaGeo, {
     style: feature => ({
-      color: '#fffaf0', weight: 1.25, opacity: .86,
-      fillColor: feature.properties.income > 0 ? incomeColor(feature.properties.income) : '#d9d7d1', fillOpacity: .56
+      color: '#fbfdfe', weight: 1.25, opacity: .86,
+      fillColor: feature.properties.income > 0 ? incomeColor(feature.properties.income) : '#dfe4e9', fillOpacity: .56
     }),
     onEachFeature: (feature, layer) => layer.bindTooltip(`<strong>${feature.properties.zip}</strong><br>${feature.properties.income > 0 ? money(feature.properties.income) : 'Income unavailable'}`, { sticky: true })
   }).addTo(layers.income);
   stations.forEach(d => {
     const radius = d.docks > 40 ? 9 : d.docks >= 30 ? 6.5 : 4.5;
     const capacity = d.docks > 40 ? 'large station · over 40 docks' : d.docks >= 30 ? 'medium station · 30–40 docks' : 'small station · 29 or fewer docks';
-    L.circleMarker([d.lat, d.lng], { radius, className: 'station-marker', color: '#6e5011', fillColor: colors.yellow, fillOpacity: .9, weight: 1 }).bindTooltip(`<strong>${d.name}</strong><br>${d.docks} docks · ${capacity}<br>ZIP ${d.zip}`).addTo(layers.stations);
+    L.circleMarker([d.lat, d.lng], { radius, className: 'station-marker', color: '#0f4c78', fillColor: colors.station, fillOpacity: .9, weight: 1 }).bindTooltip(`<strong>${d.name}</strong><br>${d.docks} docks · ${capacity}<br>ZIP ${d.zip}`).addTo(layers.stations);
   });
   L.geoJSON(bikeRouteGeo, {
     style: feature => ({ color: colors.green, weight: 1 + Math.sqrt(feature.properties.count) / 2, opacity: .56 }),
@@ -128,10 +132,10 @@ function renderTripStrip(minute) {
   const node = document.getElementById('trip-strip'); const width = node.clientWidth || 900; const height = 280;
   const svg = d3.select(node).selectAll('svg').data([null]).join('svg').attr('viewBox', `0 0 ${width} ${height}`).attr('width', width).attr('height', height);
   const x = d3.scaleLinear().domain([-74.03, -73.94]).range([20, width - 20]); const y = d3.scaleLinear().domain([40.67, 40.79]).range([height - 15, 15]);
-  svg.selectAll('.ghost').data(near).join('line').attr('class', 'ghost').attr('x1', d => x(d.startLng)).attr('y1', d => y(d.startLat)).attr('x2', d => x(d.endLng)).attr('y2', d => y(d.endLat)).attr('stroke', '#42635a').attr('stroke-width', .5).attr('opacity', .35);
-  svg.selectAll('.departure').data(near.filter(d => Math.abs(d.startMinute - minute) < 20)).join('circle').attr('class', 'departure').attr('cx', d => x(d.startLng)).attr('cy', d => y(d.startLat)).attr('r', 3).attr('fill', colors.green);
-  svg.selectAll('.arrival').data(near.filter(d => Math.abs(d.endMinute - minute) < 20)).join('circle').attr('class', 'arrival').attr('cx', d => x(d.endLng)).attr('cy', d => y(d.endLat)).attr('r', 3).attr('fill', colors.coral);
-  svg.selectAll('.active').data(active.slice(0, 150)).join('circle').attr('class', 'active').attr('cx', d => x((d.startLng + d.endLng) / 2)).attr('cy', d => y((d.startLat + d.endLat) / 2)).attr('r', 3.5).attr('fill', colors.yellow);
+  svg.selectAll('.ghost').data(near).join('line').attr('class', 'ghost').attr('x1', d => x(d.startLng)).attr('y1', d => y(d.startLat)).attr('x2', d => x(d.endLng)).attr('y2', d => y(d.endLat)).attr('stroke', onDark.ghost).attr('stroke-width', .5).attr('opacity', .35);
+  svg.selectAll('.departure').data(near.filter(d => Math.abs(d.startMinute - minute) < 20)).join('circle').attr('class', 'departure').attr('cx', d => x(d.startLng)).attr('cy', d => y(d.startLat)).attr('r', 3).attr('fill', onDark.green);
+  svg.selectAll('.arrival').data(near.filter(d => Math.abs(d.endMinute - minute) < 20)).join('circle').attr('class', 'arrival').attr('cx', d => x(d.endLng)).attr('cy', d => y(d.endLat)).attr('r', 3).attr('fill', onDark.coral);
+  svg.selectAll('.active').data(active.slice(0, 150)).join('circle').attr('class', 'active').attr('cx', d => x((d.startLng + d.endLng) / 2)).attr('cy', d => y((d.startLat + d.endLat) / 2)).attr('r', 3.5).attr('fill', onDark.station);
   document.getElementById('trip-count').textContent = `${active.length.toLocaleString()} rides active`;
 }
 function setupTimeline() { const slider = document.getElementById('time-slider'); const update = () => { const m = +slider.value; document.getElementById('time-readout').textContent = `${String(Math.floor(m / 60)).padStart(2, '0')}:${String(m % 60).padStart(2, '0')}`; renderTripStrip(m); }; slider.addEventListener('input', update); update(); }
@@ -147,7 +151,7 @@ function renderWheel() {
     const related = links.filter(d => d.source === id || d.target === id); const outbound = d3.sum(related.filter(d => d.source === id), d => d.value); const inbound = d3.sum(related.filter(d => d.target === id), d => d.value);
     document.getElementById('station-name').textContent = stationById.get(id)?.name || `Station ${id}`; document.getElementById('station-stats').textContent = `${outbound.toLocaleString()} recorded departures and ${inbound.toLocaleString()} recorded arrivals among the 20 busiest stations.`;
     linkLayer.selectAll('path').attr('stroke-opacity', d => (d.source===id||d.target===id) ? .72 : .05).attr('stroke', d => d.source === id ? colors.coral : colors.green);
-    nodeLayer.selectAll('circle').attr('fill', d => d === id ? colors.yellow : colors.ink).attr('r', d => d === id ? 9 : 5);
+    nodeLayer.selectAll('circle').attr('fill', d => d === id ? colors.station : colors.ink).attr('r', d => d === id ? 9 : 5);
   }
   linkLayer.selectAll('path').data(links).join('path').attr('d', d => { const [a,b] = [positions.get(d.source), positions.get(d.target)]; return `M${a[0]},${a[1]} Q${center[0]},${center[1]} ${b[0]},${b[1]}`; }).attr('fill','none').attr('stroke-width', d => Math.min(7, .4 + Math.sqrt(d.value)/2)).attr('stroke', colors.green).attr('stroke-opacity', .12);
   const nodes = nodeLayer.selectAll('.node').data(topIds).join('g').attr('class','node').attr('transform', d => `translate(${positions.get(d)[0]},${positions.get(d)[1]})`).on('click', (_,d) => selectStation(d)); nodes.append('circle').attr('r',5).attr('fill',colors.ink); nodes.append('text').attr('class','node-label').attr('x', d => Math.cos(positions.get(d)[2]) * 14).attr('y', d => Math.sin(positions.get(d)[2]) * 14 + 3).attr('text-anchor', d => Math.cos(positions.get(d)[2]) > .1 ? 'start' : Math.cos(positions.get(d)[2]) < -.1 ? 'end' : 'middle').text(d => (stationById.get(d)?.name || '').replace(' & ', ' &\n'));
